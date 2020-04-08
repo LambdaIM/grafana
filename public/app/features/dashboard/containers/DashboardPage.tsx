@@ -12,7 +12,6 @@ import { Branding } from 'app/core/components/Branding/Branding';
 // Components
 import { DashboardGrid } from '../dashgrid/DashboardGrid';
 import { DashNav } from '../components/DashNav';
-import { AngularSubMenu } from '../components/SubMenu';
 import { DashboardSettings } from '../components/DashboardSettings';
 import { PanelEditor } from '../components/PanelEditor/PanelEditor';
 import { Alert, CustomScrollbar, Portal } from '@grafana/ui';
@@ -279,6 +278,7 @@ export class DashboardPage extends PureComponent<Props, State> {
 
     // Only trigger render when the scroll has moved by 25
     const approximateScrollTop = Math.round(scrollTop / 25) * 25;
+    const newVariables = getConfig().featureToggles.newVariables;
 
     return (
       <div>
@@ -300,8 +300,8 @@ export class DashboardPage extends PureComponent<Props, State> {
             {initError && this.renderInitFailedState()}
 
             <div className={gridWrapperClasses}>
-              {!getConfig().featureToggles.newVariables && <AngularSubMenu dashboard={dashboard} />}
-              {!editPanel && getConfig().featureToggles.newVariables && <SubMenu dashboard={dashboard} />}
+              {!newVariables && <SubMenu dashboard={dashboard} />}
+              {!editPanel && newVariables && <SubMenu dashboard={dashboard} />}
               <DashboardGrid
                 dashboard={dashboard}
                 isEditing={isEditing}

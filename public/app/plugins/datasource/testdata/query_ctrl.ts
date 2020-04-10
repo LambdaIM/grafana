@@ -40,6 +40,11 @@ export class TestDataQueryCtrl extends QueryCtrl {
   constructor($scope: IScope, $injector: any) {
     super($scope, $injector);
 
+    // @ts-ignore
+    $scope.selectors = {
+      ...e2e.components.QueryEditors.TestData.selectors,
+    };
+
     this.target.scenarioId = this.target.scenarioId || 'random_walk';
     this.scenarioList = [];
     this.newPointTime = dateTime();

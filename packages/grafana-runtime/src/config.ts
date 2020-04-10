@@ -17,6 +17,7 @@ interface FeatureToggles {
   expressions: boolean;
   newEdit: boolean;
   meta: boolean; // enterprise
+  cloudwatchLogs: boolean;
   newVariables: boolean;
   tracingIntegration: boolean;
 }
@@ -69,6 +70,7 @@ export class GrafanaBootConfig {
     expressions: false,
     newEdit: false,
     meta: false,
+    cloudwatchLogs: false,
     newVariables: true,
     tracingIntegration: false,
   };

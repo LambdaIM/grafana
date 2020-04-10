@@ -42,6 +42,8 @@ export interface SelectCommonProps<T> {
   /** Use a custom element to control Select. A proper ref to the renderControl is needed if 'portal' isn't set to null*/
   renderControl?: ControlComponent<T>;
   menuPosition?: 'fixed' | 'absolute';
+  closeMenuOnSelect?: boolean;
+  isOptionDisabled?: () => boolean;
 }
 
 export interface SelectAsyncProps<T> {
@@ -49,6 +51,8 @@ export interface SelectAsyncProps<T> {
   defaultOptions?: boolean | Array<SelectableValue<T>>;
   /** Asynchronously load select options */
   loadOptions?: (query: string) => Promise<Array<SelectableValue<T>>>;
+  /** If cacheOptions is true, then the loaded data will be cached. The cache will remain until cacheOptions changes value. */
+  cacheOptions?: boolean;
   /** Message to display when options are loading */
   loadingMessage?: string;
 }

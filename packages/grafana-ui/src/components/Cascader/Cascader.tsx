@@ -14,12 +14,14 @@ interface CascaderProps {
   separator?: string;
   placeholder?: string;
   options: CascaderOption[];
-  onSelect(val: string): void;
+  onSelect?(val: string): void;
   size?: FormInputSize;
   initialValue?: string;
   allowCustomValue?: boolean;
   /** A function for formatting the message for custom value creation. Only applies when allowCustomValue is set to true*/
   formatCreateLabel?: (val: string) => string;
+  loadData?(selectedOptions: CascaderOption[]): void;
+  changeOnSelect?: boolean;
 }
 
 interface CascaderState {
@@ -47,6 +49,7 @@ export interface CascaderOption {
   title?: string;
   /**  Children will be shown in a submenu. Use 'items' instead, as 'children' exist to ensure backwards compatibility.*/
   children?: CascaderOption[];
+  loading?: boolean;
 }
 
 const disableDivFocus = css(`
@@ -115,7 +118,7 @@ export class Cascader extends React.PureComponent<CascaderProps, CascaderState> 
       activeLabel: selectedOptions[selectedOptions.length - 1].label,
     });
 
-    this.props.onSelect(selectedOptions[selectedOptions.length - 1].value);
+    this.props.onSelect?.(selectedOptions[selectedOptions.length - 1].value);
   };
 
   //For select
@@ -126,7 +129,7 @@ export class Cascader extends React.PureComponent<CascaderProps, CascaderState> 
       rcValue: valueArray,
       isSearching: false,
     });
-    this.props.onSelect(valueArray[valueArray.length - 1]);
+    this.props.onSelect?.(valueArray[valueArray.length - 1]);
   };
 
   onCreateOption = (value: string) => {
@@ -135,7 +138,7 @@ export class Cascader extends React.PureComponent<CascaderProps, CascaderState> 
       rcValue: [],
       isSearching: false,
     });
-    this.props.onSelect(value);
+    this.props.onSelect?.(value);
   };
 
   onBlur = () => {
@@ -193,9 +196,11 @@ export class Cascader extends React.PureComponent<CascaderProps, CascaderState> 
           />
         ) : (
           <RCCascader
+            changeOnSelect
+            //loadData={this.props.loadData}
+            //onClick={this.onClick}
             onChange={onChangeCascader(this.onChange)}
             options={this.props.options}
-            changeOnSelect
             value={rcValue.value}
             fieldNames={{ label: 'label', value: 'value', children: 'items' }}
             expandIcon={null}

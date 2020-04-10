@@ -29,7 +29,7 @@ const getInputControlStyles = stylesFactory(
           `,
         disabled && styles.inputDisabled,
         css`
-          min-height: 32px;
+          min-height: 35px;
           height: auto;
           flex-direction: row;
           padding-right: 0;

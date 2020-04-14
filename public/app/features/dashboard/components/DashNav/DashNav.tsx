@@ -128,10 +128,10 @@ export class DashNav extends PureComponent<Props> {
       <>
         <div>
           <div className="navbar-page-btn">
-            <img className="gicon" src="/public/img/grafana_icon.svg" />
-            <a>{dashboard.title}</a>
+            <img className="lambdalogo" src="/public/img/lambdalogow.svg" />
           </div>
         </div>
+        <div className="navbar__spacer" />
       </>
     );
   }
@@ -165,14 +165,18 @@ export class DashNav extends PureComponent<Props> {
       <div className="navbar">
         {this.renderDashboardTitleSearchButton()}
 
-        <div className="navbar-buttons navbar-buttons--tv">menu</div>
-        <div className="navbar-buttons navbar-buttons--tv">menu</div>
-        <div className="navbar-buttons navbar-buttons--tv">menu</div>
-        <div className="navbar-buttons navbar-buttons--tv">menu</div>
-        <div className="navbar-buttons navbar-buttons--tv">menu</div>
-        <div className="navbar-buttons navbar-buttons--tv">menu</div>
-        <div className="navbar-buttons navbar-buttons--tv">menu</div>
-        <div className="navbar-buttons navbar-buttons--tv">menu</div>
+        <div className="navbar-buttons navbar-buttons--tv">
+          <a> Faucet</a>
+        </div>
+        <div className="navbar-buttons navbar-buttons--tv">
+          <a> Docs</a>
+        </div>
+        <div className="navbar-buttons navbar-buttons--tv">
+          <a> Info</a>
+        </div>
+        <div className="navbar-buttons navbar-buttons--tv">
+          <a> testnet</a>
+        </div>
       </div>
     );
   }

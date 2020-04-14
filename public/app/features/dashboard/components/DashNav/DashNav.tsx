@@ -128,22 +128,10 @@ export class DashNav extends PureComponent<Props> {
       <>
         <div>
           <div className="navbar-page-btn">
-            {!this.isInFullscreenOrSettings && <i className="gicon gicon-dashboard" />}
-            {haveFolder && (
-              <>
-                <a className="navbar-page-btn__folder" onClick={this.onFolderNameClick}>
-                  {folderTitle}
-                </a>
-                <i className="fa fa-chevron-right navbar-page-btn__folder-icon" />
-              </>
-            )}
-            <a onClick={this.onDahboardNameClick}>
-              {dashboard.title} <i className="fa fa-caret-down navbar-page-btn__search" />
-            </a>
+            <img className="gicon" src="/public/img/grafana_icon.svg" />
+            <a>{dashboard.title}</a>
           </div>
         </div>
-        {this.isSettings && <span className="navbar-settings-title">&nbsp;/ Settings</span>}
-        <div className="navbar__spacer" />
       </>
     );
   }
@@ -175,102 +163,16 @@ export class DashNav extends PureComponent<Props> {
     const snapshotUrl = snapshot && snapshot.originalUrl;
     return (
       <div className="navbar">
-        {this.isInFullscreenOrSettings && this.renderBackButton()}
         {this.renderDashboardTitleSearchButton()}
 
-        {this.playlistSrv.isPlaying && (
-          <div className="navbar-buttons navbar-buttons--playlist">
-            <DashNavButton
-              tooltip="Go to previous dashboard"
-              classSuffix="tight"
-              icon="fa fa-step-backward"
-              onClick={this.onPlaylistPrev}
-            />
-            <DashNavButton
-              tooltip="Stop playlist"
-              classSuffix="tight"
-              icon="fa fa-stop"
-              onClick={this.onPlaylistStop}
-            />
-            <DashNavButton
-              tooltip="Go to next dashboard"
-              classSuffix="tight"
-              icon="fa fa-forward"
-              onClick={this.onPlaylistNext}
-            />
-          </div>
-        )}
-
-        <div className="navbar-buttons navbar-buttons--actions">
-          {canSave && (
-            <DashNavButton
-              tooltip="Add panel"
-              classSuffix="add-panel"
-              icon="gicon gicon-add-panel"
-              onClick={onAddPanel}
-            />
-          )}
-
-          {canStar && (
-            <DashNavButton
-              tooltip="Mark as favorite"
-              classSuffix="star"
-              icon={`${isStarred ? 'fa fa-star' : 'fa fa-star-o'}`}
-              onClick={this.onStarDashboard}
-            />
-          )}
-
-          {canShare && (
-            <DashNavButton
-              tooltip="Share dashboard"
-              classSuffix="share"
-              icon="fa fa-share-square-o"
-              onClick={this.onOpenShare}
-            />
-          )}
-
-          {canSave && (
-            <DashNavButton tooltip="Save dashboard" classSuffix="save" icon="fa fa-save" onClick={this.onSave} />
-          )}
-
-          {snapshotUrl && (
-            <DashNavButton
-              tooltip="Open original dashboard"
-              classSuffix="snapshot-origin"
-              icon="gicon gicon-link"
-              href={snapshotUrl}
-            />
-          )}
-
-          {showSettings && (
-            <DashNavButton
-              tooltip="Dashboard settings"
-              classSuffix="settings"
-              icon="gicon gicon-cog"
-              onClick={this.onOpenSettings}
-            />
-          )}
-        </div>
-
-        <div className="navbar-buttons navbar-buttons--tv">
-          <DashNavButton
-            tooltip="Cycle view mode"
-            classSuffix="tv"
-            icon="fa fa-desktop"
-            onClick={this.onToggleTVMode}
-          />
-        </div>
-
-        {!dashboard.timepicker.hidden && (
-          <div className="navbar-buttons">
-            <DashNavTimeControls
-              $injector={$injector}
-              dashboard={dashboard}
-              location={location}
-              updateLocation={updateLocation}
-            />
-          </div>
-        )}
+        <div className="navbar-buttons navbar-buttons--tv">menu</div>
+        <div className="navbar-buttons navbar-buttons--tv">menu</div>
+        <div className="navbar-buttons navbar-buttons--tv">menu</div>
+        <div className="navbar-buttons navbar-buttons--tv">menu</div>
+        <div className="navbar-buttons navbar-buttons--tv">menu</div>
+        <div className="navbar-buttons navbar-buttons--tv">menu</div>
+        <div className="navbar-buttons navbar-buttons--tv">menu</div>
+        <div className="navbar-buttons navbar-buttons--tv">menu</div>
       </div>
     );
   }

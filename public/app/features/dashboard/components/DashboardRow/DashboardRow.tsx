@@ -87,8 +87,7 @@ export class DashboardRow extends React.Component<DashboardRowProps, any> {
 
     return (
       <div className={classes}>
-        <a className="dashboard-row__title pointer" onClick={this.onToggle}>
-          <i className={chevronClass} />
+        <a className="dashboard-row__title pointer">
           {title}
           <span className="dashboard-row__panel_count">
             ({count} {panels})

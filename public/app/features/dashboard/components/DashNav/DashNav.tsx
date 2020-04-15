@@ -66,6 +66,8 @@ export class DashNav extends PureComponent<Props> {
     }
   };
 
+  openMenu = () => {};
+
   onToggleTVMode = () => {
     appEvents.emit(CoreEvents.toggleKioskMode);
   };
@@ -131,7 +133,9 @@ export class DashNav extends PureComponent<Props> {
             <img className="lambdalogo" src="/public/img/lambdalogow.svg" />
           </div>
         </div>
-        <div className="navbar__spacer" />
+        <div className="navbar__spacer">
+          <a className="innerlink">{dashboard.title}</a>
+        </div>
       </>
     );
   }
@@ -148,7 +152,7 @@ export class DashNav extends PureComponent<Props> {
     return (
       <div className="navbar-edit">
         <Tooltip content="Go back (Esc)">
-          <button className="navbar-edit__back-btn" onClick={this.onClose}>
+          <button className="navbar-edit__back-btn" onClick={this.openMenu}>
             <i className="fa fa-arrow-left" />
           </button>
         </Tooltip>
@@ -164,18 +168,28 @@ export class DashNav extends PureComponent<Props> {
     return (
       <div className="navbar">
         {this.renderDashboardTitleSearchButton()}
+        <div className="navbar-buttons mobilemenu">
+          <a href="http://www.lambdastorage.com/" target="_blank">
+            Home
+          </a>
+        </div>
 
         <div className="navbar-buttons navbar-buttons--tv">
-          <a> Faucet</a>
+          <a href="http://faucet.lambda.im/" target="_blank">
+            {' '}
+            Faucet
+          </a>
         </div>
         <div className="navbar-buttons navbar-buttons--tv">
-          <a> Docs</a>
+          <a href="http://docs.lambdastorage.com/" target="_blank">
+            {' '}
+            Docs
+          </a>
         </div>
         <div className="navbar-buttons navbar-buttons--tv">
-          <a> Info</a>
-        </div>
-        <div className="navbar-buttons navbar-buttons--tv">
-          <a> testnet</a>
+          <a href="http://www.lambdastorage.com/" target="_blank">
+            Home
+          </a>
         </div>
       </div>
     );

@@ -11,10 +11,19 @@
   transition-property: box-shadow, border-bottom;
   background: #4953e8 !important;
   color: white;
+  @include media-breakpoint-up(xs) {
+    padding-left: 10px;
+    margin-left: 0;
+  }
   @include media-breakpoint-up(md) {
     padding-left: $dashboard-padding;
     margin-left: 0;
   }
+}
+
+.innerlink {
+  line-height: 60px;
+  margin-left: 10px;
 }
 
 .navbar-buttons--tv {
@@ -28,6 +37,11 @@
   }
   &:after {
     content: '|';
+    color: #8e8e8e;
+    padding-top: 5px;
+  }
+  &:nth-last-child(1):after {
+    content: '';
     color: #8e8e8e;
     padding-top: 5px;
   }
@@ -138,6 +152,19 @@ i.navbar-page-btn__search {
 
   &--zoom {
     margin-right: 0;
+  }
+}
+
+.mobilemenu {
+  font-size: 16px;
+  .netstate {
+    margin-right: 10px;
+  }
+  @include media-breakpoint-up(xs) {
+    display: flex;
+  }
+  @include media-breakpoint-up(md) {
+    display: none;
   }
 }
 

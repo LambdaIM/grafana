@@ -20,18 +20,7 @@ module.exports = merge(common, {
   },
 
   module: {
-    rules: [{
-        test: /\.tsx?$/,
-        enforce: 'pre',
-        exclude: /node_modules/,
-        use: {
-          loader: 'tslint-loader',
-          options: {
-            emitErrors: true,
-            typeCheck: false,
-          }
-        }
-      },
+    rules: [
       {
         test: /\.tsx?$/,
         exclude: /node_modules/,

@@ -35,7 +35,7 @@ export interface StateProps {
 
 type Props = StateProps & OwnProps;
 
-var isopen = true;
+var isopen = false;
 var timeid: any;
 export class DashNav extends PureComponent<Props> {
   playlistSrv: PlaylistSrv;
@@ -43,6 +43,7 @@ export class DashNav extends PureComponent<Props> {
   constructor(props: Props) {
     super(props);
     this.playlistSrv = this.props.$injector.get('playlistSrv');
+    console.log(this.props.location.query);
   }
 
   onDahboardNameClick = () => {
@@ -185,10 +186,46 @@ export class DashNav extends PureComponent<Props> {
         <div onClick={this.onClickMENU.bind(this)} className="navbar-buttons mobilemenu">
           <i className="fa fa-bars" />
           <Drawer open={isopen} placement="right" handler={false} onClose={this.onClickMENU}>
-            <div>111111</div>
+            <div className="mobile-menu-ul">
+              <ul>
+                <li>
+                  <a>首页</a>
+                </li>
+                <li>
+                  <a>文档</a>
+                </li>
+                <li>
+                  <a>领取测试币</a>
+                </li>
+                <li>
+                  <a>浏览器</a>
+                </li>
+                <li>
+                  <a>主网</a>
+                </li>
+                <li>
+                  <a>测试网</a>
+                </li>
+
+                <li>
+                  <a>
+                    <img width="30" src="public/img/Nationalzhch.svg" />
+                  </a>
+                </li>
+                <li>
+                  <a>
+                    <img width="30" src="public/img/Nationalen.svg" />
+                  </a>
+                </li>
+              </ul>
+            </div>
           </Drawer>
         </div>
-
+        <div className="navbar-buttons navbar-buttons--tv">
+          <a href="http://www.lambdastorage.com/" target="_blank">
+            首页
+          </a>
+        </div>
         <div className="navbar-buttons navbar-buttons--tv">
           <a href="http://faucet.lambda.im/" target="_blank">
             {' '}
@@ -202,8 +239,32 @@ export class DashNav extends PureComponent<Props> {
           </a>
         </div>
         <div className="navbar-buttons navbar-buttons--tv">
-          <a href="http://www.lambdastorage.com/" target="_blank">
-            首页
+          <a href="http://docs.lambdastorage.com/" target="_blank">
+            {' '}
+            浏览器
+          </a>
+        </div>
+        <div className="navbar-buttons navbar-buttons--tv">
+          <a href="http://docs.lambdastorage.com/" target="_blank">
+            {' '}
+            主网
+          </a>
+        </div>
+        <div className="navbar-buttons navbar-buttons--tv">
+          <a href="http://docs.lambdastorage.com/" target="_blank">
+            {' '}
+            测试网
+          </a>
+        </div>
+
+        <div className="navbar-buttons navbar-buttons--tv">
+          <a>
+            <img width="30" src="public/img/Nationalen.svg" />
+          </a>
+        </div>
+        <div className="navbar-buttons navbar-buttons--tv">
+          <a>
+            <img width="30" src="public/img/Nationalzhch.svg" />
           </a>
         </div>
       </div>

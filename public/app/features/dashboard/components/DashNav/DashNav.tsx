@@ -17,6 +17,7 @@ import { updateLocation } from 'app/core/actions';
 // Types
 import { DashboardModel } from '../../state';
 import { StoreState, CoreEvents } from 'app/types';
+import Drawer from 'rc-drawer';
 
 export interface OwnProps {
   dashboard: DashboardModel;
@@ -34,6 +35,8 @@ export interface StateProps {
 
 type Props = StateProps & OwnProps;
 
+var isopen = true;
+var timeid: any;
 export class DashNav extends PureComponent<Props> {
   playlistSrv: PlaylistSrv;
 
@@ -64,6 +67,14 @@ export class DashNav extends PureComponent<Props> {
         partial: true,
       });
     }
+  };
+  onClickMENU = () => {
+    clearTimeout(timeid);
+    var _this = this;
+    timeid = setTimeout(() => {
+      isopen = !isopen;
+      _this.forceUpdate();
+    }, 100);
   };
 
   openMenu = () => {};
@@ -165,30 +176,34 @@ export class DashNav extends PureComponent<Props> {
     const { canStar, canSave, canShare, showSettings, isStarred } = dashboard.meta;
     const { snapshot } = dashboard;
     const snapshotUrl = snapshot && snapshot.originalUrl;
+
+    console.log('isopen', isopen);
+
     return (
       <div className="navbar">
         {this.renderDashboardTitleSearchButton()}
-        <div className="navbar-buttons mobilemenu">
-          <a href="http://www.lambdastorage.com/" target="_blank">
-            Home
-          </a>
+        <div onClick={this.onClickMENU.bind(this)} className="navbar-buttons mobilemenu">
+          <i className="fa fa-bars" />
+          <Drawer open={isopen} placement="right" handler={false} onClose={this.onClickMENU}>
+            <div>111111</div>
+          </Drawer>
         </div>
 
         <div className="navbar-buttons navbar-buttons--tv">
           <a href="http://faucet.lambda.im/" target="_blank">
             {' '}
-            Faucet
+            测试币
           </a>
         </div>
         <div className="navbar-buttons navbar-buttons--tv">
           <a href="http://docs.lambdastorage.com/" target="_blank">
             {' '}
-            Docs
+            文档
           </a>
         </div>
         <div className="navbar-buttons navbar-buttons--tv">
           <a href="http://www.lambdastorage.com/" target="_blank">
-            Home
+            首页
           </a>
         </div>
       </div>
@@ -198,6 +213,7 @@ export class DashNav extends PureComponent<Props> {
 
 const mapStateToProps = (state: StoreState) => ({
   location: state.location,
+  open: state.open,
 });
 
 const mapDispatchToProps = {

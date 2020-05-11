@@ -19,6 +19,8 @@ import { DashboardModel } from '../../state';
 import { StoreState, CoreEvents } from 'app/types';
 import Drawer from 'rc-drawer';
 
+import langconfig from './lang';
+
 export interface OwnProps {
   dashboard: DashboardModel;
   editview: string;
@@ -37,6 +39,9 @@ type Props = StateProps & OwnProps;
 
 var isopen = false;
 var timeid: any;
+var lang: string;
+var pagelang: Object;
+
 export class DashNav extends PureComponent<Props> {
   playlistSrv: PlaylistSrv;
 
@@ -44,6 +49,11 @@ export class DashNav extends PureComponent<Props> {
     super(props);
     this.playlistSrv = this.props.$injector.get('playlistSrv');
     console.log(this.props.location.query);
+    lang = this.props.location.query.lang || 'zhch';
+    pagelang = langconfig;
+    if (['zhch', 'en'].indexOf(lang) == -1) {
+      lang = 'zhch';
+    }
   }
 
   onDahboardNameClick = () => {
@@ -179,6 +189,7 @@ export class DashNav extends PureComponent<Props> {
     const snapshotUrl = snapshot && snapshot.originalUrl;
 
     console.log('isopen', isopen);
+    console.log('多语言', langconfig, pagelang, langconfig['home_' + lang]);
 
     return (
       <div className="navbar">
@@ -189,22 +200,22 @@ export class DashNav extends PureComponent<Props> {
             <div className="mobile-menu-ul">
               <ul>
                 <li>
-                  <a>首页</a>
+                  <a href="https://lambdastorage.com/">{langconfig['home_' + lang]}</a>
                 </li>
                 <li>
-                  <a>文档</a>
+                  <a href="http://docs.lambdastorage.com/">{langconfig['doc_' + lang]}</a>
                 </li>
                 <li>
-                  <a>领取测试币</a>
+                  <a href="http://faucet.lambdastorage.com/">{langconfig['testcoin_' + lang]}</a>
                 </li>
                 <li>
-                  <a>浏览器</a>
+                  <a href="http://explorer.lambdastorage.com/">{langconfig['browser_' + lang]}</a>
                 </li>
                 <li>
-                  <a>主网</a>
+                  <a href="http://stats.lambdastorage.com/">{langconfig['Mainnetwork_' + lang]}</a>
                 </li>
                 <li>
-                  <a>测试网</a>
+                  <a href="http://teststats.lambdastorage.com/">{langconfig['Testnetwork_' + lang]}</a>
                 </li>
 
                 <li>
@@ -223,47 +234,47 @@ export class DashNav extends PureComponent<Props> {
         </div>
         <div className="navbar-buttons navbar-buttons--tv">
           <a href="http://www.lambdastorage.com/" target="_blank">
-            首页
+            {langconfig['home_' + lang]}
           </a>
         </div>
         <div className="navbar-buttons navbar-buttons--tv">
-          <a href="http://faucet.lambda.im/" target="_blank">
+          <a href="http://faucet.lambdastorage.com/" target="_blank">
             {' '}
-            测试币
-          </a>
-        </div>
-        <div className="navbar-buttons navbar-buttons--tv">
-          <a href="http://docs.lambdastorage.com/" target="_blank">
-            {' '}
-            文档
+            {langconfig['testcoin_' + lang]}
           </a>
         </div>
         <div className="navbar-buttons navbar-buttons--tv">
           <a href="http://docs.lambdastorage.com/" target="_blank">
             {' '}
-            浏览器
+            {langconfig['doc_' + lang]}
           </a>
         </div>
         <div className="navbar-buttons navbar-buttons--tv">
-          <a href="http://docs.lambdastorage.com/" target="_blank">
+          <a href="http://explorer.lambdastorage.com/" target="_blank">
             {' '}
-            主网
+            {langconfig['browser_' + lang]}
           </a>
         </div>
         <div className="navbar-buttons navbar-buttons--tv">
-          <a href="http://docs.lambdastorage.com/" target="_blank">
+          <a href="http://stats.lambdastorage.com/" target="_blank">
             {' '}
-            测试网
+            {langconfig['Mainnetwork_' + lang]}
+          </a>
+        </div>
+        <div className="navbar-buttons navbar-buttons--tv">
+          <a href="http://teststats.lambdastorage.com/" target="_blank">
+            {' '}
+            {langconfig['Testnetwork_' + lang]}
           </a>
         </div>
 
         <div className="navbar-buttons navbar-buttons--tv">
-          <a>
+          <a href="/en/">
             <img width="30" src="public/img/Nationalen.svg" />
           </a>
         </div>
         <div className="navbar-buttons navbar-buttons--tv">
-          <a>
+          <a href="/zh/">
             <img width="30" src="public/img/Nationalzhch.svg" />
           </a>
         </div>

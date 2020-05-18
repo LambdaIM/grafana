@@ -181,6 +181,9 @@ export class DashNav extends PureComponent<Props> {
       </div>
     );
   }
+  gotopage = (lang: string) => {
+    window.location.href = window.location.origin + '/' + lang;
+  };
 
   render() {
     const { dashboard, onAddPanel, location, $injector } = this.props;
@@ -200,7 +203,7 @@ export class DashNav extends PureComponent<Props> {
             <div className="mobile-menu-ul">
               <ul>
                 <li>
-                  <a href="https://lambdastorage.com/">{langconfig['home_' + lang]}</a>
+                  <a href="/">{langconfig['home_' + lang]}</a>
                 </li>
                 <li>
                   <a href="http://docs.lambdastorage.com/">{langconfig['doc_' + lang]}</a>
@@ -233,7 +236,7 @@ export class DashNav extends PureComponent<Props> {
           </Drawer>
         </div>
         <div className="navbar-buttons navbar-buttons--tv">
-          <a href="http://www.lambdastorage.com/" target="_blank">
+          <a href="/" target="_blank">
             {langconfig['home_' + lang]}
           </a>
         </div>
@@ -269,12 +272,16 @@ export class DashNav extends PureComponent<Props> {
         </div>
 
         <div className="navbar-buttons navbar-buttons--tv">
-          <a href="/en/">
+          <a href="/en/" target="_blank">
             <img width="30" src="public/img/Nationalen.svg" />
           </a>
         </div>
         <div className="navbar-buttons navbar-buttons--tv">
-          <a href="/zh/">
+          <a
+            onClick={() => {
+              this.gotopage('zh');
+            }}
+          >
             <img width="30" src="public/img/Nationalzhch.svg" />
           </a>
         </div>

@@ -182,7 +182,7 @@ export class DashNav extends PureComponent<Props> {
     );
   }
   gotopage = (lang: string) => {
-    window.location.href = window.location.origin + '/' + lang;
+    window.location.href = window.location.origin + '/' + lang + '/';
   };
 
   render() {
@@ -222,12 +222,16 @@ export class DashNav extends PureComponent<Props> {
                 </li>
 
                 <li>
-                  <a>
+                  <a
+                    onClick={() => {
+                      this.gotopage('zh');
+                    }}
+                  >
                     <img width="30" src="public/img/Nationalzhch.svg" />
                   </a>
                 </li>
                 <li>
-                  <a>
+                  <a href="/en/">
                     <img width="30" src="public/img/Nationalen.svg" />
                   </a>
                 </li>

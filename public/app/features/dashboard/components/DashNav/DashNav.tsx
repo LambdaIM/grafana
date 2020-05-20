@@ -49,10 +49,10 @@ export class DashNav extends PureComponent<Props> {
     super(props);
     this.playlistSrv = this.props.$injector.get('playlistSrv');
     console.log(this.props.location.query);
-    lang = this.props.location.query.lang || 'zhch';
+    lang = this.props.location.query.lang || 'zh';
     pagelang = langconfig;
-    if (['zhch', 'en'].indexOf(lang) == -1) {
-      lang = 'zhch';
+    if (['zh', 'en'].indexOf(lang) == -1) {
+      lang = 'zh';
     }
   }
 
@@ -199,14 +199,14 @@ export class DashNav extends PureComponent<Props> {
         {this.renderDashboardTitleSearchButton()}
         <div onClick={this.onClickMENU.bind(this)} className="navbar-buttons mobilemenu">
           <i className="fa fa-bars" />
-          <Drawer open={isopen} placement="right" handler={false} onClose={this.onClickMENU}>
+          <Drawer width="50vw" open={isopen} placement="right" handler={false} onClose={this.onClickMENU}>
             <div className="mobile-menu-ul">
               <ul>
                 <li>
                   <a href="/">{langconfig['home_' + lang]}</a>
                 </li>
                 <li>
-                  <a href="http://docs.lambdastorage.com/">{langconfig['doc_' + lang]}</a>
+                  <a href="https://lambdastorage.com/developer">{langconfig['doc_' + lang]}</a>
                 </li>
                 <li>
                   <a href="http://faucet.lambdastorage.com/">{langconfig['testcoin_' + lang]}</a>
@@ -231,7 +231,11 @@ export class DashNav extends PureComponent<Props> {
                   </a>
                 </li>
                 <li>
-                  <a href="/en/">
+                  <a
+                    onClick={() => {
+                      this.gotopage('en');
+                    }}
+                  >
                     <img width="30" src="public/img/Nationalen.svg" />
                   </a>
                 </li>
@@ -251,7 +255,7 @@ export class DashNav extends PureComponent<Props> {
           </a>
         </div>
         <div className="navbar-buttons navbar-buttons--tv">
-          <a href="http://docs.lambdastorage.com/" target="_blank">
+          <a href="https://lambdastorage.com/developer" target="_blank">
             {' '}
             {langconfig['doc_' + lang]}
           </a>
@@ -276,7 +280,12 @@ export class DashNav extends PureComponent<Props> {
         </div>
 
         <div className="navbar-buttons navbar-buttons--tv">
-          <a href="/en/" target="_blank">
+          <a
+            onClick={() => {
+              this.gotopage('en');
+            }}
+            target="_blank"
+          >
             <img width="30" src="public/img/Nationalen.svg" />
           </a>
         </div>

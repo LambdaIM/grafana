@@ -28,12 +28,14 @@ let obj: Y = {
   browser_zh: '浏览器',
   Mainnetwork_zh: '主网',
   Testnetwork_zh: '测试网',
+  About_zh: '关于Lambda',
   home_en: 'Home',
   doc_en: 'Developer Docs',
   testcoin_en: 'Testcoin',
   browser_en: 'Browser',
   Mainnetwork_en: 'Main net',
   Testnetwork_en: 'Test net',
+  About_en: 'About Lambda',
 };
 
 export default obj;

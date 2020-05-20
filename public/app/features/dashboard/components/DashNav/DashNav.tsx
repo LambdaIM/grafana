@@ -203,16 +203,28 @@ export class DashNav extends PureComponent<Props> {
             <div className="mobile-menu-ul">
               <ul>
                 <li>
-                  <a href="/">{langconfig['home_' + lang]}</a>
+                  <a href="https://lambdastorage.com/">{langconfig['home_' + lang]}</a>
                 </li>
+                <li>
+                  <a href="https://lambdastorage.com/about">{langconfig['About_' + lang]}</a>
+                </li>
+                {/* <li>
+                  <a href="https://lambdastorage.com/ecology">Lambda Eco</a>
+                </li>
+                <li>
+                  <a href="https://lambdastorage.com/technologies">技术探索</a>
+                </li> */}
                 <li>
                   <a href="https://lambdastorage.com/developer">{langconfig['doc_' + lang]}</a>
                 </li>
-                <li>
+                {/* <li>
                   <a href="http://faucet.lambdastorage.com/">{langconfig['testcoin_' + lang]}</a>
-                </li>
+                </li> */}
                 <li>
                   <a href="http://explorer.lambdastorage.com/">{langconfig['browser_' + lang]}</a>
+                </li>
+                <li>
+                  <a href="http://s3.oneweb.one/minio/login">Lambda S3</a>
                 </li>
                 <li>
                   <a href="http://stats.lambdastorage.com/">{langconfig['Mainnetwork_' + lang]}</a>
@@ -244,26 +256,51 @@ export class DashNav extends PureComponent<Props> {
           </Drawer>
         </div>
         <div className="navbar-buttons navbar-buttons--tv">
-          <a href="/" target="_blank">
+          <a href="https://lambdastorage.com/" target="_blank">
             {langconfig['home_' + lang]}
           </a>
         </div>
+
         <div className="navbar-buttons navbar-buttons--tv">
-          <a href="http://faucet.lambdastorage.com/" target="_blank">
+          <a href="https://lambdastorage.com/about" target="_blank">
             {' '}
-            {langconfig['testcoin_' + lang]}
+            {langconfig['About_' + lang]}
           </a>
         </div>
+        {/* <div className="navbar-buttons navbar-buttons--tv">
+          <a href="https://lambdastorage.com/ecology" target="_blank">
+            {' '}
+            Lambda Eco
+          </a>
+        </div>
+        <div className="navbar-buttons navbar-buttons--tv">
+          <a href="https://lambdastorage.com/technologies" target="_blank">
+            {' '}
+            技术探索
+          </a>
+        </div> */}
         <div className="navbar-buttons navbar-buttons--tv">
           <a href="https://lambdastorage.com/developer" target="_blank">
             {' '}
             {langconfig['doc_' + lang]}
           </a>
         </div>
+        {/* <div className="navbar-buttons navbar-buttons--tv">
+          <a href="http://faucet.lambdastorage.com/" target="_blank">
+            {' '}
+            {langconfig['testcoin_' + lang]}
+          </a>
+        </div> */}
         <div className="navbar-buttons navbar-buttons--tv">
           <a href="http://explorer.lambdastorage.com/" target="_blank">
             {' '}
             {langconfig['browser_' + lang]}
+          </a>
+        </div>
+        <div className="navbar-buttons navbar-buttons--tv">
+          <a href="http://s3.oneweb.one/minio/login" target="_blank">
+            {' '}
+            Lambda S3
           </a>
         </div>
         <div className="navbar-buttons navbar-buttons--tv">

@@ -40,8 +40,8 @@ let obj: Y = {
   Testnetwork_en: 'Test net',
   About_en: 'About Lambda',
   lang_en: 'English',
-  testnet_en: 'Test network',
-  mainnet_en: 'Main network',
+  testnet_en: 'Test net',
+  mainnet_en: 'Main net',
 };
 
 export default obj;

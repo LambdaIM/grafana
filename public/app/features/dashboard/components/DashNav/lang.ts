@@ -29,6 +29,9 @@ let obj: Y = {
   Mainnetwork_zh: '主网',
   Testnetwork_zh: '测试网',
   About_zh: '关于Lambda',
+  lang_zh: '简体中文',
+  testnet_zh: '测试网',
+  mainnet_zh: '主网',
   home_en: 'Home',
   doc_en: 'Developer Docs',
   testcoin_en: 'Testcoin',
@@ -36,6 +39,9 @@ let obj: Y = {
   Mainnetwork_en: 'Main net',
   Testnetwork_en: 'Test net',
   About_en: 'About Lambda',
+  lang_en: 'English',
+  testnet_en: 'Test network',
+  mainnet_en: 'Main network',
 };
 
 export default obj;

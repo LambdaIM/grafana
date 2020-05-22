@@ -20,6 +20,8 @@ import { StoreState, CoreEvents } from 'app/types';
 import Drawer from 'rc-drawer';
 
 import langconfig from './lang';
+import { Select } from '@grafana/ui';
+import { SelectableValue } from '@grafana/data';
 
 export interface OwnProps {
   dashboard: DashboardModel;
@@ -35,14 +37,22 @@ export interface StateProps {
   location: any;
 }
 
+export interface State {
+  selectLang: Object;
+  selectNet: Object;
+  langlist: Array<{ value: string; label: string }>;
+  netlist: Array<{ value: string; label: string }>;
+}
+
 type Props = StateProps & OwnProps;
 
 var isopen = false;
 var timeid: any;
 var lang: string;
 var pagelang: Object;
+var selectLangNow: Object;
 
-export class DashNav extends PureComponent<Props> {
+export class DashNav extends PureComponent<Props, State> {
   playlistSrv: PlaylistSrv;
 
   constructor(props: Props) {
@@ -54,6 +64,52 @@ export class DashNav extends PureComponent<Props> {
     if (['zh', 'en'].indexOf(lang) == -1) {
       lang = 'zh';
     }
+    //====
+    var netType: String = this.props.location.netType || 'main';
+    var net1: any, lang1: any;
+    const dashboardPermissionLevels: Array<{ value: string; label: string }> = [
+      {
+        value: 'zh',
+        label: langconfig['lang_zh'],
+      },
+      {
+        value: 'en',
+        label: langconfig['lang_en'],
+      },
+    ];
+
+    const dashboardNetLevels: Array<{ value: string; label: string }> = [
+      {
+        value: 'test',
+        label: langconfig['testnet_' + lang],
+        // label: 'xxxxxx'
+      },
+      {
+        value: 'main',
+        label: langconfig['mainnet_' + lang],
+        // label: 'yyy'
+      },
+    ];
+
+    dashboardNetLevels.forEach(item => {
+      if (item.value == netType) {
+        net1 = item;
+      }
+    });
+
+    dashboardPermissionLevels.forEach(item => {
+      if (item.value == lang) {
+        selectLangNow = item;
+        lang1 = item;
+      }
+    });
+
+    this.state = {
+      selectLang: lang1,
+      selectNet: net1,
+      langlist: dashboardPermissionLevels,
+      netlist: dashboardNetLevels,
+    };
   }
 
   onDahboardNameClick = () => {
@@ -141,6 +197,23 @@ export class DashNav extends PureComponent<Props> {
       scope: modalScope,
     });
   };
+  onLangChanged = (option: SelectableValue<String>) => {
+    console.log('onLangChanged');
+    console.log(option);
+    selectLangNow = option;
+
+    this.setState({ selectLang: selectLangNow });
+
+    this.gotopage(option.value);
+  };
+
+  onNetChanged = (option: SelectableValue<String>) => {
+    console.log('onNetChanged');
+
+    this.setState({ selectNet: option });
+
+    this.gotopageNet(option.value);
+  };
 
   renderDashboardTitleSearchButton() {
     const { dashboard } = this.props;
@@ -181,8 +254,17 @@ export class DashNav extends PureComponent<Props> {
       </div>
     );
   }
-  gotopage = (lang: string) => {
+  gotopage = (lang: String) => {
     window.location.href = window.location.origin + '/' + lang + '/';
+  };
+
+  gotopageNet = (lang: String) => {
+    if (lang == 'test') {
+      window.location.href = 'http://teststats.lambdastorage.com/';
+    } else {
+      window.location.href = 'http://tstats.lambdastorage.com/';
+    }
+    //window.location.href = window.location.origin + '/' + lang + '/';
   };
 
   render() {
@@ -227,29 +309,23 @@ export class DashNav extends PureComponent<Props> {
                   <a href="http://s3.oneweb.one/minio/login">Lambda S3</a>
                 </li>
                 <li>
-                  <a href="http://stats.lambdastorage.com/">{langconfig['Mainnetwork_' + lang]}</a>
-                </li>
-                <li>
-                  <a href="http://teststats.lambdastorage.com/">{langconfig['Testnetwork_' + lang]}</a>
+                  <Select
+                    value={this.state.selectNet}
+                    onChange={this.onNetChanged}
+                    options={this.state.netlist}
+                    isSearchable={false}
+                    className="gf-form-select-box__control--menu-right uiSelect"
+                  />
                 </li>
 
                 <li>
-                  <a
-                    onClick={() => {
-                      this.gotopage('zh');
-                    }}
-                  >
-                    <img width="30" src="public/img/Nationalzhch.svg" />
-                  </a>
-                </li>
-                <li>
-                  <a
-                    onClick={() => {
-                      this.gotopage('en');
-                    }}
-                  >
-                    <img width="30" src="public/img/Nationalen.svg" />
-                  </a>
+                  <Select
+                    value={this.state.selectLang}
+                    onChange={this.onLangChanged}
+                    options={this.state.langlist}
+                    isSearchable={false}
+                    className="gf-form-select-box__control--menu-right uiSelect"
+                  />
                 </li>
               </ul>
             </div>
@@ -267,6 +343,7 @@ export class DashNav extends PureComponent<Props> {
             {langconfig['About_' + lang]}
           </a>
         </div>
+
         {/* <div className="navbar-buttons navbar-buttons--tv">
           <a href="https://lambdastorage.com/ecology" target="_blank">
             {' '}
@@ -304,36 +381,23 @@ export class DashNav extends PureComponent<Props> {
           </a>
         </div>
         <div className="navbar-buttons navbar-buttons--tv">
-          <a href="http://stats.lambdastorage.com/" target="_blank">
-            {' '}
-            {langconfig['Mainnetwork_' + lang]}
-          </a>
-        </div>
-        <div className="navbar-buttons navbar-buttons--tv">
-          <a href="http://teststats.lambdastorage.com/" target="_blank">
-            {' '}
-            {langconfig['Testnetwork_' + lang]}
-          </a>
+          <Select
+            value={this.state.selectNet}
+            onChange={this.onNetChanged}
+            options={this.state.netlist}
+            isSearchable={false}
+            className="gf-form-select-box__control--menu-right uiSelect"
+          />
         </div>
 
         <div className="navbar-buttons navbar-buttons--tv">
-          <a
-            onClick={() => {
-              this.gotopage('en');
-            }}
-            target="_blank"
-          >
-            <img width="30" src="public/img/Nationalen.svg" />
-          </a>
-        </div>
-        <div className="navbar-buttons navbar-buttons--tv">
-          <a
-            onClick={() => {
-              this.gotopage('zh');
-            }}
-          >
-            <img width="30" src="public/img/Nationalzhch.svg" />
-          </a>
+          <Select
+            value={this.state.selectLang}
+            onChange={this.onLangChanged}
+            options={this.state.langlist}
+            isSearchable={false}
+            className="gf-form-select-box__control--menu-right uiSelect"
+          />
         </div>
       </div>
     );

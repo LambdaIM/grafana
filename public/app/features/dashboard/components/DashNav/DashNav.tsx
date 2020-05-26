@@ -65,7 +65,7 @@ export class DashNav extends PureComponent<Props, State> {
       lang = 'zh';
     }
     //====
-    var netType: String = this.props.location.netType || 'main';
+    var netType: String = this.props.location.query.netType || 'main';
     var net1: any, lang1: any;
     const dashboardPermissionLevels: Array<{ value: string; label: string }> = [
       {

@@ -84,11 +84,11 @@ export class DashNav extends PureComponent<Props, State> {
         label: langconfig['testnet_' + lang],
         // label: 'xxxxxx'
       },
-      {
-        value: 'main',
-        label: langconfig['mainnet_' + lang],
-        // label: 'yyy'
-      },
+      // {
+      //   value: 'main',
+      //   label: langconfig['mainnet_' + lang],
+      //   // label: 'yyy'
+      // },
     ];
 
     dashboardNetLevels.forEach(item => {

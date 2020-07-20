@@ -262,7 +262,7 @@ export class DashNav extends PureComponent<Props, State> {
     if (lang == 'test') {
       window.location.href = 'http://teststats.lambdastorage.com/';
     } else {
-      window.location.href = 'http://tstats.lambdastorage.com/';
+      window.location.href = 'http://stats.lambdastorage.com/';
     }
     //window.location.href = window.location.origin + '/' + lang + '/';
   };

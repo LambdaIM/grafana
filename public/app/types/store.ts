@@ -38,6 +38,7 @@ export interface StoreState {
   ldap: LdapState;
   ldapUser: LdapUserState;
   apiKeys: ApiKeysState;
+  open: boolean;
 }
 
 /*

@@ -1,0 +1,12 @@
+@include media-breakpoint-up(xl) {
+  .uiSelect {
+    margin-top: 3px;
+    .gf-form-select-box__control {
+      background-color: #4953e8;
+      border: 1px solid #4953e8;
+    }
+    .gf-form-select-box__placeholder {
+      color: #d8d9da;
+    }
+  }
+}

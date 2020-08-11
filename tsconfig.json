@@ -25,7 +25,7 @@
     "noImplicitUseStrict": false,
     "noImplicitAny": true,
     "downlevelIteration": true,
-    "noUnusedLocals": true,
+    "noUnusedLocals": false,
     "baseUrl": "public",
     "pretty": true,
     "typeRoots": ["node_modules/@types", "public/app/types"],

@@ -52,3 +52,20 @@
     max-width: 600px;
   }
 }
+
+.mobile-menu-ul {
+  margin-top: 20px;
+  width: 120px;
+
+  ul {
+    list-style: none;
+    li {
+      line-height: 2;
+      margin-left: 20px;
+      margin-bottom: 10px;
+      a {
+        color: #161619;
+      }
+    }
+  }
+}

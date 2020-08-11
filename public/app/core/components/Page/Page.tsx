@@ -32,7 +32,7 @@ class Page extends Component<Props> {
 
   updateTitle = () => {
     const title = this.getPageTitle;
-    document.title = title ? title + ' - ' + Branding.AppTitle : Branding.AppTitle;
+    document.title = title ? title + ' - Lambda' : 'Lambda';
   };
 
   get getPageTitle() {

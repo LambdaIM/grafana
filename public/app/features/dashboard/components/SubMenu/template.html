@@ -1,0 +1,17 @@
+
+
+  <div ng-if="ctrl.dashboard.annotations.list.length > 0">
+    <div ng-repeat="annotation in ctrl.dashboard.annotations.list" ng-hide="annotation.hide" class="submenu-item" ng-class="{'annotation-disabled': !annotation.enable}">
+			<gf-form-switch class="gf-form" label="{{annotation.name}}" checked="annotation.enable" on-change="ctrl.annotationStateChanged()"></gf-form-switch>
+    </div>
+  </div>
+
+  <div class="gf-form gf-form--grow">
+  </div>
+
+  <div ng-if="ctrl.dashboard.links.length > 0" >
+    <dash-links-container links="ctrl.dashboard.links" dashboard="ctrl.dashboard" class="gf-form-inline"></dash-links-container>
+  </div>
+
+  <div class="clearfix"></div>
+</div>

@@ -19,7 +19,6 @@ module.exports = merge(common, {
   },
 
   module: {
-    // Note: order is bottom-to-top and/or right-to-left
     rules: [
       {
         test: /\.tsx?$/,

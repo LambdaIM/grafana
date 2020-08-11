@@ -1,3 +1,8 @@
+安装 go mod download 需要加环境变量
+```
+export GOPROXY=https://goproxy.io
+```
+
 ![Grafana](docs/logo-horizontal.png)
 
 The open-source platform for monitoring and observability.

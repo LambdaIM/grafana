@@ -44,6 +44,7 @@ export interface StoreState {
   userListAdmin: UserListAdminState;
   templating: TemplatingState;
   importDashboard: ImportDashboardState;
+  open: boolean;
 }
 
 /*

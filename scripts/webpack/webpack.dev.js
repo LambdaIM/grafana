@@ -27,7 +27,6 @@ module.exports = (env = {}) =>
     },
 
     module: {
-      // Note: order is bottom-to-top and/or right-to-left
       rules: [
         {
           test: /\.tsx?$/,

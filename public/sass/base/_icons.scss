@@ -10,8 +10,19 @@
   display: inline-block;
   vertical-align: middle;
 }
-
-.icon--has-hover {
+.lambdalogo {
+  line-height: 1;
+  display: inline-block;
+  // width: 2.1057142857em;
+  height: 1.9057142857em;
+  text-align: center;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  display: inline-block;
+  vertical-align: middle;
+}
+.gicon--has-hover {
   opacity: 0.7;
 
   &:hover {

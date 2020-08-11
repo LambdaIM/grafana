@@ -20,48 +20,38 @@ const forgottenPasswordStyles = css`
 export const LoginPage: FC = () => {
   document.title = Branding.AppTitle;
   return (
-    <LoginLayout>
-      <LoginCtrl>
-        {({
-          loginHint,
-          passwordHint,
-          ldapEnabled,
-          authProxyEnabled,
-          disableLoginForm,
-          disableUserSignUp,
-          login,
-          isLoggingIn,
-          changePassword,
-          skipPasswordChange,
-          isChangingPassword,
-        }) => (
-          <>
-            {!isChangingPassword && (
-              <InnerBox>
-                {!disableLoginForm && (
-                  <>
-                    <LoginForm
-                      onSubmit={login}
-                      loginHint={loginHint}
-                      passwordHint={passwordHint}
-                      isLoggingIn={isLoggingIn}
-                    >
-                      {!(ldapEnabled || authProxyEnabled) ? (
-                        <HorizontalGroup justify="flex-end">
-                          <LinkButton
-                            className={forgottenPasswordStyles}
-                            variant="link"
-                            href="/user/password/send-reset-email"
-                          >
-                            Forgot your password?
-                          </LinkButton>
-                        </HorizontalGroup>
-                      ) : (
-                        <></>
-                      )}
-                    </LoginForm>
-                  </>
-                )}
+    <div className="login container">
+      <div className="login-content">
+        <div className="login-branding">
+          <img className="logo-icon" src="public/img/lambda_txt1.svg" alt="Lambda" />
+        </div>
+        <LoginCtrl>
+          {({
+            loginHint,
+            passwordHint,
+            isOauthEnabled,
+            ldapEnabled,
+            authProxyEnabled,
+            disableLoginForm,
+            disableUserSignUp,
+            login,
+            isLoggingIn,
+            changePassword,
+            skipPasswordChange,
+            isChangingPassword,
+          }) => (
+            <div className="login-outer-box">
+              <div className={`login-inner-box ${isChangingPassword ? 'hidden' : ''}`} id="login-view">
+                {!disableLoginForm ? (
+                  <LoginForm
+                    displayForgotPassword={!(ldapEnabled || authProxyEnabled)}
+                    onSubmit={login}
+                    loginHint={loginHint}
+                    passwordHint={passwordHint}
+                    isLoggingIn={isLoggingIn}
+                  />
+                ) : null}
+
                 <LoginServiceButtons />
                 {!disableUserSignUp && <UserSignup />}
               </InnerBox>

@@ -105,7 +105,7 @@ export class DashboardPage extends PureComponent<Props, State> {
 
     // if we just got dashboard update title
     if (!prevProps.dashboard) {
-      document.title = dashboard.title + ' - ' + Branding.AppTitle;
+      document.title = dashboard.title + ' - Lambda';
     }
 
     // Due to the angular -> react url bridge we can ge an update here with new uid before the container unmounts
@@ -362,4 +362,9 @@ const mapDispatchToProps = {
   cancelVariables,
 };
 
-export default hot(module)(connect(mapStateToProps, mapDispatchToProps)(DashboardPage));
+export default hot(module)(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(DashboardPage)
+);

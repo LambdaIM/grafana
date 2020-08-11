@@ -2,6 +2,7 @@ module github.com/grafana/grafana
 
 go 1.14
 
+//export GOPROXY=https://goproxy.io
 require (
 	github.com/BurntSushi/toml v0.3.1
 	github.com/VividCortex/mysqlerr v0.0.0-20170204212430-6c6b55f8796f
@@ -88,3 +89,47 @@ require (
 	xorm.io/core v0.7.3
 	xorm.io/xorm v0.8.1
 )
+
+// replace golang.org/x/crypto v0.0.0-20190923035154-9ee001bba392 => github.com/golang/crypto v0.0.0-20190923035154-9ee001bba392
+
+// replace golang.org/x/net v0.0.0-20190724013045-ca1201d0de80 => github.com/golang/net v0.0.0-20190724013045-ca1201d0de80
+
+// replace golang.org/x/net v0.0.0-20180826012351-8a410e7b638d => github.com/golang/net v0.0.0-20190724013045-ca1201d0de80
+
+// replace golang.org/x/net v0.0.0-20180906233101-161cd47e91fd => github.com/golang/net v0.0.0-20190724013045-ca1201d0de80
+
+// replace golang.org/x/sync v0.0.0-20190423024810-112230192c58 => github.com/golang/sync v0.0.0-20190423024810-112230192c58
+
+// replace golang.org/x/sync v0.0.0-20180314180146-1d60e4601c6f => github.com/golang/sync v0.0.0-20190423024810-112230192c58
+
+// replace golang.org/x/xerrors v0.0.0-20190717185122-a985d3407aa7 => github.com/golang/xerrors v0.0.0-20190717185122-a985d3407aa7
+
+// replace golang.org/x/oauth2 v0.0.0-20190319182350-c85d3e98c914 => github.com/golang/oauth2 v0.0.0-20190319182350-c85d3e98c914
+
+// replace golang.org/x/text v0.3.2 => github.com/golang/text v0.3.2
+
+// // replace golang.org/x/exp => github.com/golang/exp latest
+
+// // replace golang.org/x/time => github.com/golang/time latest
+
+// // replace golang.org/x/lint => github.com/golang/lint latest
+
+// replace golang.org/x/tools v0.0.0-20190805222050-c5a2fd39b72a => github.com/golang/tools v0.0.0-20190805222050-c5a2fd39b72a
+
+// replace golang.org/x/sys v0.0.0-20190222072716-a9d3bda3a223 => github.com/golang/sys v0.0.0-20190222072716-a9d3bda3a223
+
+// replace golang.org/x/sys v0.0.0-20190215142949-d0b11bdaac8a => github.com/golang/sys v0.0.0-20190222072716-a9d3bda3a223
+
+// // replace cloud.google.com/go => github.com/googleapis/google-cloud-go latest
+
+// // replace google.golang.org/genproto => github.com/google/go-genproto latest
+
+// replace google.golang.org/grpc v1.14.0 => github.com/grpc/grpc-go v1.14.0
+
+// // replace google.golang.org/api => github.com/googleapis/google-api-go-client latest
+
+// // replace google.golang.org/appengine => github.com/golang/appengine latest
+
+// // replace golang.org/x/mobile => github.com/golang/mobile latest
+
+// // replace golang.org/x/image => github.com/golang/image latest

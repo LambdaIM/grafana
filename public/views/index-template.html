@@ -19,7 +19,7 @@
     <meta name="viewport" content="width=device-width" />
     <meta name="theme-color" content="#000" />
 
-    <title>[[.AppTitle]]</title>
+  <title>Lambda</title>
 
     <base href="[[.AppSubUrl]]/" />
 
@@ -45,15 +45,62 @@
     <meta name="msapplication-config" content="public/img/browserconfig.xml" />
   </head>
 
-  <body class="theme-[[ .Theme ]] [[.AppNameBodyClass]]">
-    <style>
-      .preloader {
-        height: 100%;
-        flex-direction: column;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-      }
+  <style>
+    .preloader {
+      height: 100%;
+      flex-direction: column;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .preloader__enter {
+      opacity: 0;
+      animation-name: preloader-fade-in;
+      animation-iteration-count: 1;
+      animation-duration: .9s;
+      animation-delay: 1.35s;
+      animation-fill-mode: forwards;
+    }
+
+    .preloader__bounce {
+      text-align: center;
+      animation-name: preloader-bounce;
+      animation-duration: .9s;
+      animation-iteration-count: infinite;
+    }
+
+    .preloader__logo {
+      display: inline-block;
+      animation-name: preloader-squash;
+      animation-duration: .9s;
+      animation-iteration-count: infinite;
+      width: 60px;
+      height: 60px;
+      background-repeat: no-repeat;
+      background-size: contain;
+      background-image: url("public/img/grafana_icon.svg");
+    }
+
+    .preloader__text {
+      margin-top: 16px;
+      font-weight: 500;
+      font-size: 14px;
+      font-family: Sans-serif;
+      opacity: 0;
+      animation-name: preloader-fade-in;
+      animation-duration: .9s;
+      animation-delay: 1.8s;
+      animation-fill-mode: forwards;
+    }
+
+    .theme-light .preloader__text {
+      color: #52545c;
+    }
+
+    .theme-dark .preloader__text {
+      color: #d8d9da;
+    }
 
       .preloader__enter {
         opacity: 0;
@@ -208,14 +255,60 @@
         </p>
       </div>
     </div>
+    <div class="preloader__text">Loading Lambda</div>
+    <div class="preloader__text preloader__text--fail">
+      <p>
+      <strong>If you're seeing this Grafana has failed to load its application files</strong>
+        <br />
+        <br />
+      </p>
+      <p>
+        1. This could be caused by your reverse proxy settings.<br /><br />
+        2. If you host grafana under subpath make sure your grafana.ini root_url setting includes subpath<br /> <br />
+        3. If you have a local dev build make sure you build frontend using: yarn start, yarn start:hot, or yarn build<br /> <br />
+        4. Sometimes restarting grafana-server can help<br />
+      </p>
+    </div>
+  </div>
 
-    <grafana-app class="grafana-app" ng-cloak>
-      <sidemenu class="sidemenu"></sidemenu>
-      <app-notifications-list class="page-alert-list"></app-notifications-list>
-      <search-wrapper></search-wrapper>
+  <grafana-app class="grafana-app" ng-cloak>
+    <app-notifications-list class="page-alert-list"></app-notifications-list>
+    <dashboard-search></dashboard-search>
+    <div class="main-view">
+      <div class="scroll-canvas">
+        <div ng-view></div>
 
-      <div class="main-view">
-				<div ng-view class="scroll-canvas"></div>
+        <footer class="footer">
+          <div class="text-center">
+            <ul>
+              <li>
+                <a href="http://docs.lambdastorage.com/" target="_blank">
+                  <i class="fa fa-file-code-o"></i>
+                  Docs
+                </a>
+              </li>
+              <li>
+                <a href="https://lambdastorage.zendesk.com/hc/en-001" target="_blank">
+                  <i class="fa fa-support"></i>
+                  Support 
+                </a>
+              </li>
+              <li>
+                <a href="http://talk.lambdastorage.com/" target="_blank">
+                  <i class="fa fa-comments-o"></i>
+                  Community
+                </a>
+              </li>
+              <li>
+                <a href="http://www.lambdastorage.com/" target="_blank">
+                  <i class="fa"></i>
+                  Lambda site
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+        </footer>
       </div>
     </grafana-app>
 

@@ -16,9 +16,12 @@ import { updateLocation } from 'app/core/actions';
 import { updateTimeZoneForSession } from 'app/features/profile/state/reducers';
 // Types
 import { DashboardModel } from '../../state';
-import { CoreEvents, StoreState } from 'app/types';
-import { ShareModal } from 'app/features/dashboard/components/ShareModal';
-import { SaveDashboardModalProxy } from 'app/features/dashboard/components/SaveDashboard/SaveDashboardModalProxy';
+import { StoreState, CoreEvents } from 'app/types';
+import Drawer from 'rc-drawer';
+
+import langconfig from './lang';
+import { Select } from '@grafana/ui';
+import { SelectableValue } from '@grafana/data';
 
 export interface OwnProps {
   dashboard: DashboardModel;
@@ -53,14 +56,79 @@ export interface StateProps {
   location: any;
 }
 
-type Props = StateProps & OwnProps & DispatchProps;
+export interface State {
+  selectLang: Object;
+  selectNet: Object;
+  langlist: Array<{ value: string; label: string }>;
+  netlist: Array<{ value: string; label: string }>;
+}
 
-class DashNav extends PureComponent<Props> {
+type Props = StateProps & OwnProps;
+
+var isopen = false;
+var timeid: any;
+var lang: string;
+var pagelang: Object;
+var selectLangNow: Object;
+
+export class DashNav extends PureComponent<Props, State> {
   playlistSrv: PlaylistSrv;
 
   constructor(props: Props) {
     super(props);
     this.playlistSrv = this.props.$injector.get('playlistSrv');
+    console.log(this.props.location.query);
+    lang = this.props.location.query.lang || 'zh';
+    pagelang = langconfig;
+    if (['zh', 'en'].indexOf(lang) == -1) {
+      lang = 'zh';
+    }
+    //====
+    var netType: String = this.props.location.query.netType || 'main';
+    var net1: any, lang1: any;
+    const dashboardPermissionLevels: Array<{ value: string; label: string }> = [
+      {
+        value: 'zh',
+        label: langconfig['lang_zh'],
+      },
+      {
+        value: 'en',
+        label: langconfig['lang_en'],
+      },
+    ];
+
+    const dashboardNetLevels: Array<{ value: string; label: string }> = [
+      {
+        value: 'test',
+        label: langconfig['testnet_' + lang],
+        // label: 'xxxxxx'
+      },
+      {
+        value: 'main',
+        label: langconfig['mainnet_' + lang],
+        // label: 'yyy'
+      },
+    ];
+
+    dashboardNetLevels.forEach(item => {
+      if (item.value == netType) {
+        net1 = item;
+      }
+    });
+
+    dashboardPermissionLevels.forEach(item => {
+      if (item.value == lang) {
+        selectLangNow = item;
+        lang1 = item;
+      }
+    });
+
+    this.state = {
+      selectLang: lang1,
+      selectNet: net1,
+      langlist: dashboardPermissionLevels,
+      netlist: dashboardNetLevels,
+    };
   }
 
   onFolderNameClick = () => {
@@ -76,6 +144,16 @@ class DashNav extends PureComponent<Props> {
       partial: true,
     });
   };
+  onClickMENU = () => {
+    clearTimeout(timeid);
+    var _this = this;
+    timeid = setTimeout(() => {
+      isopen = !isopen;
+      _this.forceUpdate();
+    }, 100);
+  };
+
+  openMenu = () => {};
 
   onToggleTVMode = () => {
     appEvents.emit(CoreEvents.toggleKioskMode);
@@ -116,6 +194,23 @@ class DashNav extends PureComponent<Props> {
       query: { search: 'open' },
       partial: true,
     });
+  };
+  onLangChanged = (option: SelectableValue<String>) => {
+    console.log('onLangChanged');
+    console.log(option);
+    selectLangNow = option;
+
+    this.setState({ selectLang: selectLangNow });
+
+    this.gotopage(option.value);
+  };
+
+  onNetChanged = (option: SelectableValue<String>) => {
+    console.log('onNetChanged');
+
+    this.setState({ selectNet: option });
+
+    this.gotopageNet(option.value);
   };
 
   addCustomContent(actions: DashNavButtonModel[], buttons: ReactNode[]) {
@@ -190,19 +285,12 @@ class DashNav extends PureComponent<Props> {
       <>
         <div>
           <div className="navbar-page-btn">
-            {!isFullscreen && <Icon name="apps" size="lg" className={mainIconClassName} />}
-            {haveFolder && (
-              <>
-                <a className="navbar-page-btn__folder" onClick={this.onFolderNameClick}>
-                  {folderTitle} <span className={folderSymbol}>/</span>
-                </a>
-              </>
-            )}
-            <a onClick={this.onDashboardNameClick}>{dashboard.title}</a>
+            <img className="lambdalogo" src="/public/img/lambdalogow.svg" />
           </div>
         </div>
-        <div className="navbar-buttons navbar-buttons--actions">{this.renderLeftActionsButton()}</div>
-        <div className="navbar__spacer" />
+        <div className="navbar__spacer">
+          <a className="innerlink">{dashboard.title}</a>
+        </div>
       </>
     );
   }
@@ -210,10 +298,26 @@ class DashNav extends PureComponent<Props> {
   renderBackButton() {
     return (
       <div className="navbar-edit">
-        <BackButton surface="dashboard" onClick={this.onClose} />
+        <Tooltip content="Go back (Esc)">
+          <button className="navbar-edit__back-btn" onClick={this.openMenu}>
+            <i className="fa fa-arrow-left" />
+          </button>
+        </Tooltip>
       </div>
     );
   }
+  gotopage = (lang: String) => {
+    window.location.href = window.location.origin + '/' + lang + '/';
+  };
+
+  gotopageNet = (lang: String) => {
+    if (lang == 'test') {
+      window.location.href = 'http://teststats.lambdastorage.com/';
+    } else {
+      window.location.href = 'http://stats.lambdastorage.com/';
+    }
+    //window.location.href = window.location.origin + '/' + lang + '/';
+  };
 
   renderRightActionsButton() {
     const { dashboard, onAddPanel } = this.props;
@@ -221,112 +325,132 @@ class DashNav extends PureComponent<Props> {
     const { snapshot } = dashboard;
     const snapshotUrl = snapshot && snapshot.originalUrl;
 
-    const buttons: ReactNode[] = [];
-    if (canSave) {
-      buttons.push(
-        <DashNavButton
-          classSuffix="save"
-          tooltip="Add panel"
-          icon="panel-add"
-          onClick={onAddPanel}
-          iconType="mono"
-          iconSize="xl"
-          key="button-panel-add"
-        />
-      );
-      buttons.push(
-        <ModalsController key="button-save">
-          {({ showModal, hideModal }) => (
-            <DashNavButton
-              tooltip="Save dashboard"
-              classSuffix="save"
-              icon="save"
-              onClick={() => {
-                showModal(SaveDashboardModalProxy, {
-                  dashboard,
-                  onDismiss: hideModal,
-                });
-              }}
-            />
-          )}
-        </ModalsController>
-      );
-    }
-
-    if (snapshotUrl) {
-      buttons.push(
-        <DashNavButton
-          tooltip="Open original dashboard"
-          classSuffix="snapshot-origin"
-          href={textUtil.sanitizeUrl(snapshotUrl)}
-          icon="link"
-          key="button-snapshot"
-        />
-      );
-    }
-
-    if (showSettings) {
-      buttons.push(
-        <DashNavButton
-          tooltip="Dashboard settings"
-          classSuffix="settings"
-          icon="cog"
-          onClick={this.onOpenSettings}
-          key="button-settings"
-        />
-      );
-    }
-
-    this.addCustomContent(customRightActions, buttons);
-    return buttons;
-  }
-
-  render() {
-    const { dashboard, location, isFullscreen, updateTimeZoneForSession } = this.props;
+    console.log('isopen', isopen);
+    console.log('多语言', langconfig, pagelang, langconfig['home_' + lang]);
 
     return (
       <div className="navbar">
-        {isFullscreen && this.renderBackButton()}
         {this.renderDashboardTitleSearchButton()}
+        <div onClick={this.onClickMENU.bind(this)} className="navbar-buttons mobilemenu">
+          <i className="fa fa-bars" />
+          <Drawer width="50vw" open={isopen} placement="right" handler={false} onClose={this.onClickMENU}>
+            <div className="mobile-menu-ul">
+              <ul>
+                <li>
+                  <a href="https://lambdastorage.com/">{langconfig['home_' + lang]}</a>
+                </li>
+                <li>
+                  <a href="https://lambdastorage.com/about">{langconfig['About_' + lang]}</a>
+                </li>
+                {/* <li>
+                  <a href="https://lambdastorage.com/ecology">Lambda Eco</a>
+                </li>
+                <li>
+                  <a href="https://lambdastorage.com/technologies">技术探索</a>
+                </li> */}
+                <li>
+                  <a href="https://lambdastorage.com/developer">{langconfig['doc_' + lang]}</a>
+                </li>
+                {/* <li>
+                  <a href="http://faucet.lambdastorage.com/">{langconfig['testcoin_' + lang]}</a>
+                </li> */}
+                <li>
+                  <a href="http://explorer.lambdastorage.com/">{langconfig['browser_' + lang]}</a>
+                </li>
+                <li>
+                  <a href="http://s3.oneweb.one/minio/login">Lambda S3</a>
+                </li>
+                <li>
+                  <Select
+                    value={this.state.selectNet}
+                    onChange={this.onNetChanged}
+                    options={this.state.netlist}
+                    isSearchable={false}
+                    className="gf-form-select-box__control--menu-right uiSelect"
+                  />
+                </li>
 
-        {this.playlistSrv.isPlaying && (
-          <div className="navbar-buttons navbar-buttons--playlist">
-            <DashNavButton
-              tooltip="Go to previous dashboard"
-              classSuffix="tight"
-              icon="step-backward"
-              onClick={this.onPlaylistPrev}
-            />
-            <DashNavButton
-              tooltip="Stop playlist"
-              classSuffix="tight"
-              icon="square-shape"
-              onClick={this.onPlaylistStop}
-            />
-            <DashNavButton
-              tooltip="Go to next dashboard"
-              classSuffix="tight"
-              icon="forward"
-              onClick={this.onPlaylistNext}
-            />
-          </div>
-        )}
-
-        <div className="navbar-buttons navbar-buttons--actions">{this.renderRightActionsButton()}</div>
-
+                <li>
+                  <Select
+                    value={this.state.selectLang}
+                    onChange={this.onLangChanged}
+                    options={this.state.langlist}
+                    isSearchable={false}
+                    className="gf-form-select-box__control--menu-right uiSelect"
+                  />
+                </li>
+              </ul>
+            </div>
+          </Drawer>
+        </div>
         <div className="navbar-buttons navbar-buttons--tv">
-          <DashNavButton tooltip="Cycle view mode" classSuffix="tv" icon="monitor" onClick={this.onToggleTVMode} />
+          <a href="https://lambdastorage.com/" target="_blank">
+            {langconfig['home_' + lang]}
+          </a>
         </div>
 
-        {!dashboard.timepicker.hidden && (
-          <div className="navbar-buttons">
-            <DashNavTimeControls
-              dashboard={dashboard}
-              location={location}
-              onChangeTimeZone={updateTimeZoneForSession}
-            />
-          </div>
-        )}
+        <div className="navbar-buttons navbar-buttons--tv">
+          <a href="https://lambdastorage.com/about" target="_blank">
+            {' '}
+            {langconfig['About_' + lang]}
+          </a>
+        </div>
+
+        {/* <div className="navbar-buttons navbar-buttons--tv">
+          <a href="https://lambdastorage.com/ecology" target="_blank">
+            {' '}
+            Lambda Eco
+          </a>
+        </div>
+        <div className="navbar-buttons navbar-buttons--tv">
+          <a href="https://lambdastorage.com/technologies" target="_blank">
+            {' '}
+            技术探索
+          </a>
+        </div> */}
+        <div className="navbar-buttons navbar-buttons--tv">
+          <a href="https://lambdastorage.com/developer" target="_blank">
+            {' '}
+            {langconfig['doc_' + lang]}
+          </a>
+        </div>
+        {/* <div className="navbar-buttons navbar-buttons--tv">
+          <a href="http://faucet.lambdastorage.com/" target="_blank">
+            {' '}
+            {langconfig['testcoin_' + lang]}
+          </a>
+        </div> */}
+        <div className="navbar-buttons navbar-buttons--tv">
+          <a href="http://explorer.lambdastorage.com/" target="_blank">
+            {' '}
+            {langconfig['browser_' + lang]}
+          </a>
+        </div>
+        <div className="navbar-buttons navbar-buttons--tv">
+          <a href="http://s3.oneweb.one/minio/login" target="_blank">
+            {' '}
+            Lambda S3
+          </a>
+        </div>
+        <div className="navbar-buttons navbar-buttons--tv">
+          <Select
+            value={this.state.selectNet}
+            onChange={this.onNetChanged}
+            options={this.state.netlist}
+            isSearchable={false}
+            className="gf-form-select-box__control--menu-right uiSelect"
+          />
+        </div>
+
+        <div className="navbar-buttons navbar-buttons--tv">
+          <Select
+            value={this.state.selectLang}
+            onChange={this.onLangChanged}
+            options={this.state.langlist}
+            isSearchable={false}
+            className="gf-form-select-box__control--menu-right uiSelect"
+          />
+        </div>
       </div>
     );
   }
@@ -334,6 +458,7 @@ class DashNav extends PureComponent<Props> {
 
 const mapStateToProps = (state: StoreState) => ({
   location: state.location,
+  open: state.open,
 });
 
 const mapDispatchToProps: MapDispatchToProps<DispatchProps, OwnProps> = {
@@ -341,4 +466,7 @@ const mapDispatchToProps: MapDispatchToProps<DispatchProps, OwnProps> = {
   updateTimeZoneForSession,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(DashNav);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(DashNav);
